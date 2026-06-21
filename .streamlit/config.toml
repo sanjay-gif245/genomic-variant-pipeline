@@ -1,0 +1,15 @@
+[theme]
+# Primary (Your vibrant teal for buttons, progress bars, and the main UI accents)
+primaryColor = "#1D9E75"
+
+# Warm bg (The main background, giving a soft, clean canvas instead of harsh white)
+backgroundColor = "#FFF8F0"
+
+# Teal light (For the sidebars and data table backgrounds to frame the data beautifully)
+secondaryBackgroundColor = "#7ECBB5"
+
+# Text (Your deep green-grey text, which perfectly ties the whole design together)
+textColor = "#2B3A35"
+
+# The font style
+font = "sans serif"

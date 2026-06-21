@@ -1,0 +1,29 @@
+# OS / editor junk
+.DS_Store
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.egg-info/
+
+# Third-party tool distributions — download separately, see README "Setup"
+/spark-3.3.2-bin-hadoop3/
+/adam-distribution-spark3_2.12-0.36.0/
+/tools/
+
+# Raw / intermediate sequencing data — large binary files, not meant for git.
+# See README "Datasets" for download instructions.
+/data/input_bams/
+/data/output_bams/
+/data/reference/
+/data/gvcfs/
+/data/final_vcf/
+ALL.chr22.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz
+
+# Local GIAB truth-set files used for benchmarking (download separately)
+/benchmark/giab_truth/
+
+# Demo recording — large binary; host externally (e.g. Drive/YouTube) and link in README
+*.mov
+
+# Streamlit local cache
+.streamlit/secrets.toml
