@@ -3,15 +3,20 @@ import pandas as pd
 import requests
 import time
 
-st.set_page_config(page_title="Genomics Disease Predictor", layout="wide")
+st.set_page_config(page_title="Genomic Variant Clinical Annotation Dashboard", layout="wide")
 
-st.title("🧬 Pediatric Genomic Disease Predictor")
-st.markdown("**Live Clinical Database Connection:** Ping `MyVariant.info` REST API")
+st.title("🧬 Genomic Variant Clinical Annotation Dashboard")
+st.markdown(
+    "Looks up each called variant against **ClinVar** (via the public `MyVariant.info` REST API) "
+    "to see whether it has a documented clinical association. This is a rule-based lookup against "
+    "an existing clinical database, **not** a predictive/ML model — ClinVar already supplies any "
+    "disease association and clinical significance, we just fetch and display it."
+)
 st.divider()
 
 # --- THE LIVE API FUNCTION ---
 def fetch_disease_data(chrom, pos, ref, alt):
-    """Pings the live medical database to find diseases linked to a mutation."""
+    """Looks up a variant in ClinVar via the MyVariant.info REST API."""
     # Format the exact DNA change (HGVS standard format)
     hgvs_id = f"chr{chrom}:g.{pos}{ref}>{alt}"
     url = f"https://myvariant.info/v1/variant/{hgvs_id}?fields=clinvar"
@@ -48,12 +53,12 @@ try:
         st.dataframe(location_data.head(15), use_container_width=True) # Show top 15 for speed
         
     with col2:
-        st.subheader("🏥 Live Clinical Disease Scan")
-        st.markdown("Cross-reference the child's mutations with global disease databases.")
-        
-        if st.button("Run Live API Disease Prediction"):
+        st.subheader("🏥 Live ClinVar Lookup")
+        st.markdown("Cross-reference these variants against ClinVar's clinical variant database.")
+
+        if st.button("Run Live ClinVar Lookup"):
             # Create an empty box to show live progress
-            progress_text = "Establishing secure connection to Clinical API..."
+            progress_text = "Establishing secure connection to ClinVar (via MyVariant.info)..."
             my_bar = st.progress(0, text=progress_text)
             
             results = []
@@ -74,26 +79,29 @@ try:
                     "Chromosome": row['Chromosome'],
                     "Mutation Position": row['Position'],
                     "DNA Change": f"{row['Original_DNA']} ➔ {row['Mutated_DNA']}",
-                    "Predicted Disease": disease,
-                    "Clinical Risk": risk
+                    "Linked Condition (ClinVar)": disease,
+                    "Clinical Significance (ClinVar)": risk
                 })
-                
-                time.sleep(0.5) # Slight delay so we don't crash the free medical API
-                
+
+                time.sleep(0.5) # Slight delay so we don't crash the free public API
+
             my_bar.empty() # Clear the loading bar when done
-            
-            # Display the final Medical Report
-            st.success("✅ Clinical API Scan Complete.")
-            
+
+            # Display the final lookup report
+            st.success("✅ ClinVar lookup complete.")
+
             # Convert to a clean table
             report_df = pd.DataFrame(results)
-            
-            # Highlight high-risk diseases in the table
+
+            # Highlight pathogenic findings in the table
             def highlight_risk(val):
                 color = '#ff4b4b' if 'pathogenic' in str(val).lower() else ''
                 return f'background-color: {color}'
-                
-            st.dataframe(report_df.style.applymap(highlight_risk, subset=['Clinical Risk']), use_container_width=True)
+
+            st.dataframe(
+                report_df.style.map(highlight_risk, subset=['Clinical Significance (ClinVar)']),
+                use_container_width=True,
+            )
 
 except FileNotFoundError:
     st.error("Spark data not found. Please run the Big Data engine first.")
