@@ -19,8 +19,12 @@ __pycache__/
 /data/final_vcf/
 ALL.chr22.phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz
 
-# Local GIAB truth-set files used for benchmarking (download separately)
-/benchmark/giab_truth/
+# Local GIAB truth-set files used for benchmarking (download separately,
+# see benchmark/README.md) - keep the folder/instructions, ignore the data.
+/benchmark/giab_truth/*.vcf.gz
+/benchmark/giab_truth/*.vcf.gz.tbi
+/benchmark/giab_truth/*.bed
+/benchmark/giab_truth/*.bed.gz
 
 # Demo recording — large binary; host externally (e.g. Drive/YouTube) and link in README
 *.mov
