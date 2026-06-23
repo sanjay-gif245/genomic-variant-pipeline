@@ -96,6 +96,25 @@ python3 analyze_dna.py
 streamlit run app.py
 ```
 
+## Testing
+
+```bash
+pip install -r requirements-dev.txt
+pytest tests/
+```
+
+15 unit tests cover the pure data-processing logic in `scripts/3-5`
+(SNP/indel classification, VCF parsing, GIAB region/BED matching, and the
+precision/recall/F1 calculation) against small synthetic fixtures — no
+GATK, Spark, or network access needed, so the suite runs in well under a
+second. GitHub Actions (`.github/workflows/tests.yml`) runs it on every
+push across Python 3.10 and 3.11.
+
+Scope is deliberately narrow: these tests don't cover `app.py` (a
+Streamlit script — not idiomatic to unit test) or the GATK/Spark pipeline
+steps themselves, which are checked manually by running the pipeline
+end-to-end and diffing the outputs.
+
 ## Known limitations
 
 Documented here on purpose, instead of glossed over — these are the
@@ -114,9 +133,9 @@ things worth being upfront about if this comes up in an interview.
   `scripts/5_benchmark_giab.py` does plain `(pos, ref, alt)` matching, so
   it will under-count some true positives where GATK and GIAB represent
   the same variant differently.
-- **No automated tests.** Coverage is manual (`py_compile`, a `streamlit
-  run` smoke test, and a synthetic-truth-set dry run of the benchmark
-  script — see git log for details).
+- **Automated tests cover data-processing logic, not the full pipeline.**
+  See "Testing" above — `app.py` and the GATK/Spark steps are still
+  checked manually, not via CI.
 
 ## Possible extensions
 

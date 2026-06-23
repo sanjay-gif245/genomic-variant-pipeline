@@ -4,6 +4,7 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 *.egg-info/
+.pytest_cache/
 
 # Third-party tool distributions — download separately, see README "Setup"
 /spark-3.3.2-bin-hadoop3/
