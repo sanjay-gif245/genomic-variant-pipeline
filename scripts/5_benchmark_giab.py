@@ -92,7 +92,7 @@ def main():
                          help="GATK output to score (default: data/results/sample1.vcf, NA12878).")
     parser.add_argument("--truth-vcf", default="benchmark/giab_truth/HG001_GRCh37_1_22_v4.2.1_benchmark.vcf.gz",
                          help="GIAB high-confidence truth VCF for the same sample.")
-    parser.add_argument("--confident-bed", default="benchmark/giab_truth/HG001_GRCh37_1_22_v4.2.1_benchmark_noinconsistent.bed",
+    parser.add_argument("--confident-bed", default="benchmark/giab_truth/HG001_GRCh37_1_22_v4.2.1_benchmark.bed",
                          help="GIAB high-confidence regions BED file.")
     parser.add_argument("--region", default="20:10000000-10200000",
                          help="Region this project actually called variants in (chrom:start-end, 1-based).")

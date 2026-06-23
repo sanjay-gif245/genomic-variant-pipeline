@@ -17,7 +17,7 @@ cd benchmark/giab_truth
 
 curl -O https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/NA12878_HG001/NISTv4.2.1/GRCh37/HG001_GRCh37_1_22_v4.2.1_benchmark.vcf.gz
 curl -O https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/NA12878_HG001/NISTv4.2.1/GRCh37/HG001_GRCh37_1_22_v4.2.1_benchmark.vcf.gz.tbi
-curl -O https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/NA12878_HG001/NISTv4.2.1/GRCh37/HG001_GRCh37_1_22_v4.2.1_benchmark_noinconsistent.bed
+curl -O https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/NA12878_HG001/NISTv4.2.1/GRCh37/HG001_GRCh37_1_22_v4.2.1_benchmark.bed
 ```
 
 (These URLs are NIST's official GIAB FTP mirror. If they've reorganized
@@ -48,3 +48,23 @@ normalizes both VCFs so that e.g. an indel represented two different-but
 equivalent ways still matches. This script will under-count true positives
 in that situation — it's a reasonable, explainable simplification, not a
 hidden bug.
+
+## Results (sample1 / NA12878, run against the real GIAB v4.2.1 GRCh37 truth set)
+
+```
+Region: chr20:10,000,000-10,200,000  (sample: data/results/sample1.vcf)
+Truth variants in region (confident only): 355
+Called variants in region (confident only): 353
+True Positives:  352
+False Positives: 1
+False Negatives: 3
+Precision: 0.9972
+Recall:    0.9915
+F1:        0.9944
+```
+
+The 1 false positive and 3 false negatives are most plausibly explained by
+the exact-match limitation described above (an indel or complex variant
+represented differently between GATK's output and GIAB's truth VCF), not
+by GATK making genuinely wrong calls — but that hasn't been individually
+confirmed per-variant, so don't overstate it as proven.

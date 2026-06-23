@@ -40,6 +40,28 @@ data/input_bams/*.bam
 **local mode** (`local[*]`) — single machine, not a multi-node cluster.
 HaplotypeCaller itself doesn't use Spark at all.
 
+## Benchmark results (sample1 / NA12878 vs. GIAB truth set)
+
+`scripts/5_benchmark_giab.py` scores GATK's calls for sample1 against
+NIST/GIAB's published high-confidence truth set (v4.2.1, GRCh37),
+restricted to the 200kb region this project actually calls variants in
+(`chr20:10,000,000-10,200,000`):
+
+| Metric | Value |
+|---|---|
+| Truth variants in region | 355 |
+| Called variants in region | 353 |
+| True positives | 352 |
+| False positives | 1 |
+| False negatives | 3 |
+| **Precision** | **0.9972** |
+| **Recall** | **0.9915** |
+| **F1** | **0.9944** |
+
+See `benchmark/README.md` to reproduce this and for the exact-match
+(non-normalized) caveat that most likely explains the handful of
+false positives/negatives.
+
 ## Pipeline B — population-scale analysis (Spark + ADAM)
 
 ```
@@ -152,5 +174,3 @@ things worth being upfront about if this comes up in an interview.
   not just code to read.
 - Train a real classifier (e.g., on ClinVar-labeled variants) to predict
   pathogenicity — would justify a "predictor" framing for real.
-- Re-run `scripts/5_benchmark_giab.py` with the actual GIAB truth set
-  downloaded and report the real precision/recall numbers here.
