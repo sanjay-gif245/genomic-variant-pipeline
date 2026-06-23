@@ -69,8 +69,14 @@ HDFS instance — not a distributed cluster.
 
 ```bash
 python3 -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.txt              # streamlit + app.py's runtime deps
+pip install -r requirements-pipeline-b.txt    # pyspark, only needed for analyze_dna.py (Pipeline B)
 ```
+
+`requirements.txt` is scoped to what the deployed dashboard (`app.py`)
+actually imports — it never starts a Spark session, it just reads
+pre-computed CSVs. PySpark is split into its own file since it's a large
+dependency only `analyze_dna.py` needs.
 
 You'll also need, downloaded separately (not in git — see `.gitignore`):
 
