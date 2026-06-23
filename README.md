@@ -1,5 +1,7 @@
 # Genomic Variant Analysis Pipeline (Spark + GATK + ClinVar)
 
+**Repo:** [github.com/sanjay-gif245/genomic-variant-pipeline](https://github.com/sanjay-gif245/genomic-variant-pipeline)
+
 Two linked pieces of work on real public genomic data:
 
 1. **Family variant calling** — GATK4 deduplicates and calls variants from
